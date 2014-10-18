@@ -1,0 +1,14 @@
+{
+  "require": {
+    "slim/slim"       : "2.*"
+  },
+  "require-dev"  : {
+
+  },
+  "autoload" : {
+    "psr-4" : {
+      "Jitty\\FileEngine\\" : "workbench/jitty/file-engine/src/"
+    }
+  },
+  "minimum-stability" : "dev"
+}

@@ -1,0 +1,28 @@
+body { padding-top: 10px; }
+
+ul { padding: 0 0 0 30px; list-style: none; }
+ul:first-child { margin-left: -30px; }
+.source_li:hover:not(.focusRow) { background: #90C8FF; border-radius: 6px; }
+li a.source_link { position: relative; padding-left: 25px; text-decoration: none; color: black;  }
+
+li.dir_icon a.source_link { background: url(images/folder.png) 0 0 no-repeat; }
+li.file_icon a.source_link { background: url(images/file.png) 0 0 no-repeat; }
+
+
+li a.expand_button { padding-left: 18px; }
+li a.close_icon { background: url(images/arrow-right.png) 0 0 no-repeat; }
+li a.expanded_icon { background: url(images/arrow-down.png) 0 0 no-repeat; }
+li a.loading_icon { background: #e0ffc7 url(images/spiffygif_22x22.gif) no-repeat center center;   }
+
+
+.even { background: #F2F6F5; }
+li .focusRow a { color: #fff; }
+li .focusRow { background: #2162A7; color: #fff; border-radius: 6px; }
+.textRight { text-align: right; }
+.fileMTime_label { position: absolute; right: 150px; }
+.fileSize_label { position: absolute; right: 30px; }
+
+.head-topic { background: #b6b6b6; }
+.fileNameHead { font-weight: bold; color: #fff; }
+.fileMTimeHead{ position: absolute; right: 170px; font-weight: bold; color: #fff; }
+.fileSizeHead{ position: absolute; right: 40px; font-weight: bold; color: #fff; }
