@@ -72,7 +72,25 @@ class FileEngine {
 
 			try
 			{
-				$fileMTime = date("M d, Y h:i A", filemtime($source));
+				$fileTimeStamp = filemtime($source);
+
+				if( date("Y") == date("Y", $fileTimeStamp) &&  date("M") == date("M", $fileTimeStamp) )
+				{
+					if( date("d") == date("d", $fileTimeStamp) )
+						$fileMTime = "Today, ".date("h:i A", $fileTimeStamp);
+					elseif ( date("d", strtotime('last day')) == date("d", $fileTimeStamp) )
+						$fileMTime = "Yesterday, ".date("h:i A", $fileTimeStamp);
+					else
+						$fileMTime = date("M d, Y h:i A", $fileTimeStamp);
+				}
+				else
+				{
+					$fileMTime = date("M d, Y h:i A", $fileTimeStamp);
+				}
+
+				// $interval = date_diff($datetime1, $datetime2);
+
+				//$fileMTime = date("M d, Y h:i A", filemtime($source));
 			}
 			catch(\Exception $e)
 			{
