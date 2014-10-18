@@ -180,7 +180,7 @@
 	         }
 	         else
 	         {
-		         $(event.currentTarget).closest("div" ).find(".expand_button" ).trigger("click");
+		         $(event.currentTarget).closest("div").find(".expand_button").trigger("click");
 	         }
          },
 
@@ -189,7 +189,7 @@
 	         var t = this;
 	         event.preventDefault();
 
-	         $(event.currentTarget).removeClass("close_icon" ).addClass("loading_icon");
+	         $(event.currentTarget).removeClass("close_icon").addClass("loading_icon");
 
 	         var subSources = new App.Collections.Sources;
 	         subSources.url = baseUrl+'/get-sources';
@@ -209,7 +209,7 @@
          {
 	         event.preventDefault();
 
-	         $(event.currentTarget).removeClass("expanded_icon" ).addClass("loading_icon");
+	         $(event.currentTarget).removeClass("expanded_icon").addClass("loading_icon");
 
 	         if ( this.model.has("subSources") )
 	         {

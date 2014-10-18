@@ -89,12 +89,17 @@ class FileEngine {
 		return $data;
 	}
 
-	protected  function formatBytes($size, $precision = 2) {
-		$base = log($size) / log(1024);
-		$suffixes = array('bytes', 'k', 'M', 'G', 'T');
+	protected  function formatBytes($size) {
+		$mod   = 1024;
+		$units = array('B', 'KB', 'MB', "GB", "TB", "PB");
+		for ($i = 0; $size > $mod; $i++)
+		{
+			$size /= $mod;
+		}
+
 		try
 		{
-			$result = round(pow(1024, $base - floor($base)), $precision) . ' '.$suffixes[floor($base)];
+			$result = round($size, 2) . ' ' . $units[$i];
 		}
 		catch(\Exception $e)
 		{
