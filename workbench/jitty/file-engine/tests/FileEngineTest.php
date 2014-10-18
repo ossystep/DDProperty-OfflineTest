@@ -4,11 +4,11 @@ use Jitty\FileEngine\FileEngine;
 
 class FileEngineTest extends PHPUnit_Framework_TestCase
 {
-	public $rootPath = "./demo_data";
+	public $rootPath;
 
-	public function  __construct()
+	public function  setUp()
 	{
-		$this->rootPath = realpath($this->rootPath);
+		$this->rootPath = realpath(dirname(__FILE__)."/demo_data");
 	}
 
 	public function testDefineRootPathWithConstruct()
@@ -47,5 +47,35 @@ class FileEngineTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($fileEngineObj->formatBytes(4000000), "3.81 MB");
 		$this->assertEquals($fileEngineObj->formatBytes(1072693248), "1023 MB");
 		$this->assertEquals($fileEngineObj->formatBytes(1073741824), "1 GB");
+	}
+
+	public function testGetResourceWhenNotDefineOrEmptyRootPath()
+	{
+		$fileEngineObj = new FileEngine;
+		$this->assertFalse($fileEngineObj->listSources(), false);
+		$this->assertFalse($fileEngineObj->setRootPath('')->listSources(), false);
+	}
+
+	public function testGetResources()
+	{
+		$fileEngineObj = new FileEngine($this->rootPath);
+		$sources = $fileEngineObj->listSources();
+
+		$this->assertCount(5, $sources);
+		$this->assertEquals($sources[0]['baseName'], "css");
+		$this->assertEquals($sources[0]['type'], "dir");
+
+		$this->assertEquals($sources[1]['baseName'], "demo.txt");
+		$this->assertEquals($sources[1]['type'], "file");
+
+		$this->assertEquals($sources[2]['baseName'], "demo2.txt");
+		$this->assertEquals($sources[2]['type'], "file");
+
+		$this->assertEquals($sources[3]['baseName'], "fonts");
+		$this->assertEquals($sources[3]['type'], "dir");
+
+		$this->assertEquals($sources[4]['baseName'], "js");
+		$this->assertEquals($sources[4]['type'], "dir");
+
 	}
 }
