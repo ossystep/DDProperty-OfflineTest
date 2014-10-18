@@ -195,7 +195,9 @@
 	         subSources.url = baseUrl+'/get-sources';
 	         subSources.fetch({data: {path: this.model.get("fullPath")}} ).then(function(result){
 		         var html = new App.Views.Sources({collection : subSources} ).render().el;
-		         $(event.currentTarget ).removeClass("loading_icon").addClass('expanded_icon').closest("li" ).append(html);
+		         var $html = $(html);
+		         $(event.currentTarget ).removeClass("loading_icon").addClass('expanded_icon').closest("li" ).append($html.hide());
+		         $html.slideDown('fast');
 
 		         t.model.set("subSources", subSources);
 
@@ -217,7 +219,9 @@
 		         data.remove();
 	         }
 
-	         $(event.currentTarget).removeClass("loading_icon").addClass('close_icon').closest("li" ).find("ul").remove();
+	         $(event.currentTarget).removeClass("loading_icon").addClass('close_icon').closest("li" ).find("ul").slideUp('fast', function(){
+		       this.remove();
+	         });
 	         App.Global._hilightEven();
 
 	         return false;
