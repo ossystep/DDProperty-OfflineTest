@@ -5,7 +5,7 @@ class FileEngine {
 
 	protected $rootUrl = false;
 
-	function __construct($rootUrl = '')
+	function __construct($rootUrl = false)
 	{
 		$this->rootUrl = $rootUrl;
 	}
@@ -23,6 +23,8 @@ class FileEngine {
 
 	public function listSources()
 	{
+		if( $this->rootUrl === false ||  empty($this->rootUrl) ) return false;
+
 		$sources = glob($this->rootUrl."/*");
 
 		$data = array();
@@ -89,10 +91,14 @@ class FileEngine {
 		return $data;
 	}
 
-	protected  function formatBytes($size) {
+	public  function formatBytes($size) {
 		$mod   = 1024;
+
+		if( $size <= 0 || !is_numeric($size) ) return "None";
+
 		$units = array('B', 'KB', 'MB', "GB", "TB", "PB");
-		for ($i = 0; $size > $mod; $i++)
+
+		for ($i = 0; $size >= $mod; $i++)
 		{
 			$size /= $mod;
 		}

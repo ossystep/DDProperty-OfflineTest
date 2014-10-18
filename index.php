@@ -34,7 +34,11 @@ $app->get('/get-sources', function () use ($app) {
 		$response['X-Powered-By'] = 'Jitty';
 		$response->status(200);
 
-		$response->body(json_encode($fileEngineObj->setRootPath($path)->listSources()));
+		$sources = $fileEngineObj->setRootPath($path)->listSources();
+
+		if( $sources === false ) $sources = array('error' => true);
+
+		$response->body(json_encode($sources));
 });
 
 $app->get('/loadfile', function() use ($app){
