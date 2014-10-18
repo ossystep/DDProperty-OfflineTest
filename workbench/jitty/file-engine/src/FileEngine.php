@@ -87,10 +87,6 @@ class FileEngine {
 				{
 					$fileMTime = date("M d, Y h:i A", $fileTimeStamp);
 				}
-
-				// $interval = date_diff($datetime1, $datetime2);
-
-				//$fileMTime = date("M d, Y h:i A", filemtime($source));
 			}
 			catch(\Exception $e)
 			{
