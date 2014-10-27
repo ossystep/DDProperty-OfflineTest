@@ -42,21 +42,32 @@ $app->get('/get-sources', function () use ($app) {
 });
 
 $app->get('/loadfile', function() use ($app){
-		$path = $app->request->params('path');
+		$path = htmlspecialchars($app->request->params('path'));
 		$res  = $app->response();
-		try
+
+		$myPath  = str_replace("/", '\/', BROWSE_URL);
+		$pattern = '/^('.$myPath.')/';
+
+		if( preg_match($pattern, $path) )
 		{
-			$res['Content-Description']       = 'File Transfer';
-			$res['Content-Type']              = 'application/octet-stream';
-			$res['Content-Disposition']       = 'attachment; filename=' . basename($path);
-			$res['Content-Transfer-Encoding'] = 'binary';
-			$res['Expires']                   = '0';
-			$res['Cache-Control']             = 'must-revalidate';
-			$res['Pragma']                    = 'public';
-			$res['Content-Length']            = filesize($path);
-			readfile($path);
+			try
+			{
+				$res['Content-Description']       = 'File Transfer';
+				$res['Content-Type']              = 'application/octet-stream';
+				$res['Content-Disposition']       = 'attachment; filename=' . basename($path);
+				$res['Content-Transfer-Encoding'] = 'binary';
+				$res['Expires']                   = '0';
+				$res['Cache-Control']             = 'must-revalidate';
+				$res['Pragma']                    = 'public';
+				$res['Content-Length']            = filesize($path);
+				readfile($path);
+			}
+			catch ( Exception $e )
+			{
+				echo '<h1>You don\'t have permission to access this file.</h1>';
+			}
 		}
-		catch( Exception $e)
+		else
 		{
 			echo '<h1>You don\'t have permission to access this file.</h1>';
 		}

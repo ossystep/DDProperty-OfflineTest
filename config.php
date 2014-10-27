@@ -1,4 +1,4 @@
 <?php
 
-
-define("BROWSE_URL", "/");
+$path = "./";
+define("BROWSE_URL", realpath($path));
