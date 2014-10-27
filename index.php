@@ -28,15 +28,28 @@ $app->get('/get-sources', function () use ($app) {
 		$path = $app->request->params('path');
 		$fileEngineObj = new FileEngine();
 
+		$response                 = $app->response();
 
-		$response = $app->response();
-		$response['Content-Type'] = 'application/json';
-		$response['X-Powered-By'] = 'Jitty';
-		$response->status(200);
+		$myPath  = str_replace("/", '\/', BROWSE_URL);
+		$pattern = '/^('.$myPath.')/';
 
-		$sources = $fileEngineObj->setRootPath($path)->listSources();
+		if( preg_match($pattern, $path) )
+		{
+			$response['Content-Type'] = 'application/json';
+			$response['X-Powered-By'] = 'Jitty';
+			$response->status(200);
 
-		if( $sources === false ) $sources = array('error' => true);
+			$sources = $fileEngineObj->setRootPath($path)->listSources();
+
+			if ( $sources === false )
+			{
+				$sources = array( 'error' => true );
+			}
+		}
+		else
+		{
+			$sources = array( 'error' => true );
+		}
 
 		$response->body(json_encode($sources));
 });
