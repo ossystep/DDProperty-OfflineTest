@@ -25,15 +25,14 @@ $app->get('/', function () use ($app) {
 });
 
 $app->get('/get-sources', function () use ($app) {
-		$path = $app->request->params('path');
-		$fileEngineObj = new FileEngine();
+		$path = htmlspecialchars($app->request->params('path'));
+		$path = realpath($path);
 
-		$response                 = $app->response();
+		$fileEngineObj = new FileEngine(BROWSE_URL);
 
-		$myPath  = str_replace("/", '\/', BROWSE_URL);
-		$pattern = '/^('.$myPath.')/';
+		$response = $app->response();
 
-		if( preg_match($pattern, $path) )
+		if( $fileEngineObj->canAccessPath($path) )
 		{
 			$response['Content-Type'] = 'application/json';
 			$response['X-Powered-By'] = 'Jitty';
@@ -56,12 +55,13 @@ $app->get('/get-sources', function () use ($app) {
 
 $app->get('/loadfile', function() use ($app){
 		$path = htmlspecialchars($app->request->params('path'));
+		$path = realpath($path);
+
+		$fileEngineObj = new FileEngine(BROWSE_URL);
+
 		$res  = $app->response();
 
-		$myPath  = str_replace("/", '\/', BROWSE_URL);
-		$pattern = '/^('.$myPath.')/';
-
-		if( preg_match($pattern, $path) )
+		if( $fileEngineObj->canAccessPath($path) )
 		{
 			try
 			{

@@ -10,17 +10,29 @@ class FileEngine {
 		$this->rootUrl = $rootUrl;
 	}
 
+	/**
+	 * set Root Path
+	 * @param string $rootUrl Define root path
+	 */
 	public function setRootPath($rootUrl)
 	{
 		$this->rootUrl = $rootUrl;
 		return $this;
 	}
 
+	/**
+	 * get Root Path
+	 * @return string RootPath
+	 */
 	public function getRootPath()
 	{
 		return $this->rootUrl;
 	}
 
+	/**
+	 * Get Folder Of File in directory
+	 * @return array path and file in directory
+	 */
 	public function listSources()
 	{
 		if( $this->rootUrl === false ||  empty($this->rootUrl) ) return false;
@@ -105,7 +117,13 @@ class FileEngine {
 		return $data;
 	}
 
-	public  function formatBytes($size) {
+	/**
+	 * Convert Byte to human readable
+	 * @param  double $size bytes
+	 * @return string       result human readable format
+	 */
+	public  function formatBytes($size) 
+	{
 		$mod   = 1024;
 
 		if( $size <= 0 || !is_numeric($size) ) return "None";
@@ -125,6 +143,22 @@ class FileEngine {
 		{
 			return "None";
 		}
+
 		return $result;
+	}
+
+	/**
+	 * Check permission to access
+	 * @param  string $path Path that you want to access.
+	 * @return boolean    true = can access, false = can't access
+	 */
+	public function canAccessPath($path)
+	{
+		if( $this->rootUrl === false ||  empty($this->rootUrl) ) return false;
+
+		$myPath  = str_replace("/", '\/', $this->rootUrl);
+		$pattern = '/^('.$myPath.')/';
+
+		return preg_match($pattern, $path);
 	}
 }
