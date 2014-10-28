@@ -53,7 +53,7 @@ class FileEngineTest extends PHPUnit_Framework_TestCase
 	{
 		$fileEngineObj = new FileEngine;
 		$this->assertFalse($fileEngineObj->listSources(), false);
-		$this->assertFalse($fileEngineObj->setRootPath('')->listSources(), false);
+		$this->assertFalse($fileEngineObj->setRootPath('')->listSources());
 	}
 
 	public function testGetResources()
@@ -77,5 +77,16 @@ class FileEngineTest extends PHPUnit_Framework_TestCase
 		$this->assertEquals($sources[4]['baseName'], "js");
 		$this->assertEquals($sources[4]['type'], "dir");
 
+	}
+
+	public function testCanAccessPath()
+	{
+		$fileEngineObj = new FileEngine($this->rootPath);
+
+		$this->assertTrue((boolean)$fileEngineObj->canAccessPath($this->rootPath.'/demo.txt'));
+		$this->assertTrue((boolean)$fileEngineObj->canAccessPath($this->rootPath.'/folder-c/demo.txt'));
+		$this->assertFalse((boolean)realpath($fileEngineObj->canAccessPath('/demo.txt')));
+		$this->assertFalse((boolean)realpath($fileEngineObj->canAccessPath('../../demo.txt')));
+		$this->assertFalse((boolean)realpath($fileEngineObj->canAccessPath($this->rootPath.'/../../demo.txt')));
 	}
 }
